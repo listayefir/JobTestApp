@@ -1,0 +1,71 @@
+﻿@using TestApplication.Models
+
+@model TestApplication.Models.LannistersViewModel
+@{
+    ViewBag.Title = "Table";
+}
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("select option:first-child").select(function () {
+            $("#searchById").attr({
+                hidden :false
+            });
+        });
+    });
+</script>
+<div class="container">
+    <div>
+        @Html.Label("Sort by:")
+        @using (Html.BeginForm())
+        {
+        @Html.DropDownList("orderBy", new PropertySorter().Properties, new { onchange = "this.form.submit();" })
+        @Html.CheckBox("orderByDescending", false, new { onchange = "this.form.submit();" })
+        @Html.DropDownList("thenBy",new PropertySorter().Properties, new { onchange = "this.form.submit();" })
+        @Html.CheckBox("thenByDescending", false, new { onchange = "this.form.submit();" })
+        }
+
+    </div>
+    <div>
+        @Html.Label("Filter by:")
+        @using (Html.BeginForm())
+        {
+        @Html.DropDownList("filterBy", new PropertySorter().Properties)
+        
+            @Html.TextBox("searchById", 0, new { hidden = true })
+            @Html.TextBox("title", "", new { hidden = true })
+            @Html.TextBox("description","", new { hidden = true })
+            @Html.TextBox("from", "", new { hidden = true })
+            @Html.TextBox("to","", new { hidden = true })
+            @Html.TextBox("parent","", new { hidden = true })
+        }
+    </div>
+    <h2>Lannisters</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Parent</th>
+                <th>Created</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var line in Model.Lannisters)
+            {
+                <tr>
+                    <td>@line.Id</td>
+                    <td>@line.Title</td>
+                    <td>@line.Parent</td>
+                <td>@line.Created</td>
+                <td>@line.Description</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
