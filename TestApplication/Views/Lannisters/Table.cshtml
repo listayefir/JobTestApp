@@ -7,12 +7,34 @@
 
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        $("select option:first-child").select(function () {
-            $("#searchById").attr({
-                hidden :false
-            });
-        });
+    $(document).ready(function () {
+        $("#filterBy")
+      .change(function () {
+          $("#filterBy option").each(function () {
+              $("input").prop("hidden", true);
+          });
+          $("#filterBy option:selected").each(function () {
+              //if ($(this).val() == "id") {
+              //    $("#searchById").prop("hidden", false);
+              //}
+              if ($(this).val() == "Title") {
+                  $("#searchByTitle").prop("hidden", false);
+              }
+              if ($(this).val() == "Parent") {
+                  $("#searchByParent").prop("hidden", false);
+              }
+              if ($(this).val() == "Created") {
+                  $("#searchByDateFrom").prop("hidden", false);
+                  $("#searchByDateTo").prop("hidden", false);
+              }
+              if ($(this).val() == "Id") {
+                  $("#searchById").prop("hidden", false);
+              }
+              if ($(this).val() == "Description") {
+                  $("#searchByDescription").prop("hidden", false);
+              };
+          });
+      })
     });
 </script>
 <div class="container">
@@ -32,13 +54,14 @@
         @using (Html.BeginForm())
         {
         @Html.DropDownList("filterBy", new PropertySorter().Properties)
-        
-            @Html.TextBox("searchById", 0, new { hidden = true })
-            @Html.TextBox("title", "", new { hidden = true })
-            @Html.TextBox("description","", new { hidden = true })
-            @Html.TextBox("from", "", new { hidden = true })
-            @Html.TextBox("to","", new { hidden = true })
-            @Html.TextBox("parent","", new { hidden = true })
+        <div>
+            @Html.TextBox("searchById", 0, new {hidden = true })
+            @Html.TextBox("searchByTitle", "", new { hidden = true })
+            @Html.TextBox("searchByDescription", "", new { hidden = true })
+            @Html.TextBox("searchByDateFrom", "", new { hidden = true })
+            @Html.TextBox("searchByDateTo", "", new { hidden = true })
+            @Html.TextBox("searchByParent", "", new { hidden = true })
+        </div>
         }
     </div>
     <h2>Lannisters</h2>

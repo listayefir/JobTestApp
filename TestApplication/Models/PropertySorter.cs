@@ -21,7 +21,7 @@ namespace TestApplication.Models
                 Properties.Add(new SelectListItem
                 {
                     Text = prop.Name,
-                    Value = prop.Name.ToLower()
+                    Value = prop.Name
                 });
             }
         } 
