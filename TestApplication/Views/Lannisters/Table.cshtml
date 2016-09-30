@@ -8,10 +8,13 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        $(function () {
+            $(".datefield").datepicker({ dateFormat: 'dd-mm-yy', changeYear: true, changeMonth:true, yearRange:'1900:2016' });
+        });
         $("#filterBy")
       .change(function () {
           $("#filterBy option").each(function () {
-              $("input").prop("hidden", true);
+              $("input").not("#searchSubmit").prop("hidden", true);
           });
           $("#filterBy option:selected").each(function () {
               //if ($(this).val() == "id") {
@@ -42,10 +45,10 @@
         @Html.Label("Sort by:")
         @using (Html.BeginForm())
         {
-        @Html.DropDownList("orderBy", new PropertySorter().Properties, new { onchange = "this.form.submit();" })
-        @Html.CheckBox("orderByDescending", false, new { onchange = "this.form.submit();" })
-        @Html.DropDownList("thenBy",new PropertySorter().Properties, new { onchange = "this.form.submit();" })
-        @Html.CheckBox("thenByDescending", false, new { onchange = "this.form.submit();" })
+            @Html.DropDownList("orderBy", new PropertySorter().Properties, new { onchange = "this.form.submit();" })
+            @Html.CheckBox("orderByDescending", false, new { onchange = "this.form.submit();" })
+            @Html.DropDownList("thenBy", new PropertySorter().Properties, new { onchange = "this.form.submit();" })
+            @Html.CheckBox("thenByDescending", false, new { onchange = "this.form.submit();" })
         }
 
     </div>
@@ -53,15 +56,16 @@
         @Html.Label("Filter by:")
         @using (Html.BeginForm())
         {
-        @Html.DropDownList("filterBy", new PropertySorter().Properties)
-        <div>
-            @Html.TextBox("searchById", 0, new {hidden = true })
-            @Html.TextBox("searchByTitle", "", new { hidden = true })
-            @Html.TextBox("searchByDescription", "", new { hidden = true })
-            @Html.TextBox("searchByDateFrom", "", new { hidden = true })
-            @Html.TextBox("searchByDateTo", "", new { hidden = true })
-            @Html.TextBox("searchByParent", "", new { hidden = true })
-        </div>
+            
+            @Html.DropDownList("filterBy", new PropertySorter().Properties)
+           
+                @Html.TextBox("searchById", null, new { hidden = true })
+                @Html.TextBox("searchByTitle", "", new { hidden = true })
+                @Html.TextBox("searchByDescription", "", new { hidden = true })
+                @Html.TextBox("searchByDateFrom", "", new {@class="datefield", hidden = true })
+                @Html.TextBox("searchByDateTo", "", new { @class = "datefield", hidden = true })
+                @Html.TextBox("searchByParent", "", new { hidden = true })
+            <div><input id="searchSubmit" type="submit" /></div>
         }
     </div>
     <h2>Lannisters</h2>
@@ -82,13 +86,12 @@
                     <td>@line.Id</td>
                     <td>@line.Title</td>
                     <td>@line.Parent</td>
-                <td>@line.Created</td>
-                <td>@line.Description</td>
-            </tr>
+                    <td>@line.Created</td>
+                    <td>@line.Description</td>
+                </tr>
             }
         </tbody>
     </table>
 
 </div>
-
 
